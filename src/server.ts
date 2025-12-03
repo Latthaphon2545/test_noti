@@ -47,6 +47,9 @@ app.get('/', async (req, res) => {
         // STEP 2: Build Message
         // ---------------------------
         const dateTime = new Date()
+        const timeString = dateTime.toTimeString().split(' ')[0]
+        dateTime.setHours(dateTime.getHours() + 7) // GMT+7
+        const dateString = dateTime.toLocaleDateString('en-GB').split('/').join('-')
         const body = {
             message: {
                 token: fcmToken,
@@ -60,8 +63,8 @@ app.get('/', async (req, res) => {
                     REFERENCE: 'test',
                     WALLET_ID: "1234567890",
                     AMOUNT: "123",
-                    DATE: dateTime.toLocaleDateString(),
-                    TIME: dateTime.toLocaleTimeString()
+                    DATE: dateString,
+                    TIME: timeString
                 },
                 android: { priority: 'high' },
                 apns: {
