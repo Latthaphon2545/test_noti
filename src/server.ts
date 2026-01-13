@@ -37,6 +37,8 @@ app.get('/', async (req, res) => {
 
             const client = await auth.getClient()
             const tokenRes = await client.getAccessToken()
+            // เช็ค role ของ service account ว่ามีสิทธิ์ส่ง FCM หรือไม่
+
             accessToken = tokenRes.token
         } catch (err: any) {
             console.error("❌ Error generating access token:", err.message)
@@ -53,9 +55,10 @@ app.get('/', async (req, res) => {
         const body = {
             message: {
                 token: fcmToken,
+                // topic: 'onboarding',
                 notification: {
                     title: 'Transaction Notification',
-                    body: 'You have a successful transaction.'
+                    body: 'You have a successful transaction. fcm'
                 },
                 data: {
                     TYPE: req.header('type') || "NONE",
@@ -68,9 +71,13 @@ app.get('/', async (req, res) => {
                 },
                 android: { priority: 'high' },
                 apns: {
-                    headers: { 'apns-priority': '5' },
-                    payload: { aps: { 'content-available': 1 } }
-                }
+                    payload: {
+                        aps: {
+                            "content-available": 1,
+                            "sound": "default"
+                        }
+                    }
+                },
             }
         }
 
@@ -104,6 +111,14 @@ app.get('/', async (req, res) => {
         return res.status(500).json({ error: "Internal server error" })
     }
 })
+
+// app.get('/subscribe', (req, res) => {
+//     res.send('Subscribe endpoint is under construction.')
+// })
+
+// app.get('/test/subscribe', (req, res) => {
+//     res.send('Test Subscribe endpoint is under construction.')
+// })
 
 app.listen(port, () => {
     console.log(`🚀 Server running: http://localhost:${port}`)
