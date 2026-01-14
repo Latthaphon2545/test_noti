@@ -61,13 +61,11 @@ app.get('/', async (req, res) => {
                     body: 'You have a successful transaction. fcm'
                 },
                 data: {
-                    TYPE: req.header('type') || "NONE",
-                    SUBTYPE: req.header('subType') || "NONE",
-                    REFERENCE: 'test',
-                    WALLET_ID: "1234567890",
-                    AMOUNT: "123",
-                    DATE: dateString,
-                    TIME: timeString
+                    type: 'TOP_UP',
+                    subType: 'MOBILE_BANKING_SCB',
+                    data: JSON.stringify({
+                        reference: '20260114161903127007'
+                    })
                 },
                 android: { priority: 'high' },
                 // apns: {
