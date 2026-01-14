@@ -11,6 +11,7 @@ app.get('/', async (req, res) => {
         const privateKeyRaw = req.header('FIREBASE_PRIVATE')
         const clientEmail = req.header('FIREBASE_CLIENT_EMAIL')
         const projectId = req.header('FIREBASE_PROJECT_ID')
+        const ref = req.header('reference') || 'reference'
 
         if (!fcmToken) {
             return res.status(400).json({ error: 'Missing fcmToken header' })
@@ -64,7 +65,7 @@ app.get('/', async (req, res) => {
                     type: 'TOP_UP',
                     subType: 'MOBILE_BANKING_SCB',
                     data: JSON.stringify({
-                        reference: '20260114161903127007'
+                        reference: ref
                     })
                 },
                 android: { priority: 'high' },
