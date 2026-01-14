@@ -70,14 +70,14 @@ app.get('/', async (req, res) => {
                     TIME: timeString
                 },
                 android: { priority: 'high' },
-                apns: {
-                    payload: {
-                        aps: {
-                            "content-available": 1,
-                            "sound": "default"
-                        }
-                    }
-                },
+                // apns: {
+                //     payload: {
+                //         aps: {
+                //             "content-available": 1,
+                //             "sound": "default"
+                //         }
+                //     }
+                // },
             }
         }
 
