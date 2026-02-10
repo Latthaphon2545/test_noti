@@ -56,7 +56,6 @@ app.get('/', async (req, res) => {
         const body = {
             message: {
                 token: fcmToken,
-                // topic: 'onboarding',
                 notification: {
                     title: 'Transaction Notification',
                     body: 'You have a successful transaction. fcm'
@@ -68,15 +67,13 @@ app.get('/', async (req, res) => {
                         reference: ref
                     })
                 },
-                android: { priority: 'high' },
-                // apns: {
-                //     payload: {
-                //         aps: {
-                //             "content-available": 1,
-                //             "sound": "default"
-                //         }
-                //     }
-                // },
+                android: {
+                    priority: 'high'
+                },
+                apns: {
+                    headers: { 'apns-priority': '10' },
+                    payload: { aps: { 'content-available': 1 } }
+                }
             }
         }
 
