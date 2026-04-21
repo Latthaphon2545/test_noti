@@ -68,7 +68,10 @@ app.get('/', async (req, res) => {
                     })
                 },
                 android: {
-                    priority: 'high'
+                    priority: 'high',
+                    notification: {
+                        channel_id: 'fcm_no_badge'
+                    }
                 },
                 apns: {
                     headers: { 'apns-priority': '10' },
