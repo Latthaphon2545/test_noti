@@ -57,20 +57,22 @@ app.get('/', async (req, res) => {
             message: {
                 token: fcmToken,
                 notification: {
-                    title: 'Transaction Notification',
-                    body: 'You have a successful transaction. fcm'
+                    title: 'SCB Planet Plus TEST',
+                    body: 'รายการเติมเงินเข้าวอลเล็ต จำนวน 2000.00 บาท สำเร็จแล้ว เมื่อ 12-02-26 เวลา 12:00 น.'
                 },
                 data: {
                     type: 'TOP_UP',
                     subType: 'MOBILE_BANKING_SCB',
                     data: JSON.stringify({
-                        reference: ref
+                        reference: ref,
+                        // route: ''
                     })
                 },
                 android: {
                     priority: 'high',
                     notification: {
-                        channel_id: 'fcm_no_badge'
+                        channel_id: 'fcm_no_badge',
+                        click_action: 'com.scb.planet_plus.ACTION_FCM_ROUTE',
                     }
                 },
                 apns: {
