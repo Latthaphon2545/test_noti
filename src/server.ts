@@ -79,7 +79,7 @@ app.get('/', async (req, res) => {
             message: {
                 token: fcmToken,
                 notification: {
-                    title: 'SCB Planet Plus TEST',
+                    title: 'ไอเปรตเจด',
                     body: 'รายการเติมเงินเข้าวอลเล็ต จำนวน 2000.00 บาท สำเร็จแล้ว เมื่อ 12-02-26 เวลา 12:00 น.'
                 },
                 data: customData,
