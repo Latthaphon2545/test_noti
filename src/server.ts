@@ -80,7 +80,7 @@ app.get('/', async (req, res) => {
                 token: fcmToken,
                 notification: {
                     title: 'ไอเปรตเจด',
-                    body: 'ไอเปรตนี่เติมเงินมาแล้วเมื่อ 12-02-26 เวลา 12:00 น.'
+                    body: 'ไอเปรตนี่เติมเงินมา 120 บาท "น้อยจัด" แล้วเมื่อเวลา 12:00 น.'
                 },
                 data: customData,
                 android: customAndroid,
