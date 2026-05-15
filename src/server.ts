@@ -20,6 +20,28 @@ app.get('/', async (req, res) => {
             return res.status(400).json({ error: 'Missing Firebase credentials' })
         }
 
+
+        let customData: Record<string, string> = {
+            type: 'TOP_UP',
+            subType: 'MOBILE_BANKING_SCB',
+            data: JSON.stringify({ reference: 'reference' })
+        }
+        let customAndroid: Record<string, any> = {
+            priority: 'high',
+            notification: {
+                channel_id: 'fcm_no_badge',
+                click_action: 'com.scb.planet_plus.ACTION_FCM_ROUTE'
+            }
+        }
+
+        if (req.header('fcm-data')) {
+            customData = JSON.parse(req.header('fcm-data')!)
+        }
+
+        if (req.header('fcm-android')) {
+            customAndroid = JSON.parse(req.header('fcm-android')!)
+        }
+
         // 🔥 Fix private key ให้เป็น multiline
         const privateKey = privateKeyRaw.replace(/\\n/g, '\n')
 
@@ -60,21 +82,8 @@ app.get('/', async (req, res) => {
                     title: 'SCB Planet Plus TEST',
                     body: 'รายการเติมเงินเข้าวอลเล็ต จำนวน 2000.00 บาท สำเร็จแล้ว เมื่อ 12-02-26 เวลา 12:00 น.'
                 },
-                data: {
-                    type: 'TOP_UP',
-                    subType: 'MOBILE_BANKING_SCB',
-                    data: JSON.stringify({
-                        reference: ref,
-                        // route: ''
-                    })
-                },
-                android: {
-                    priority: 'high',
-                    notification: {
-                        channel_id: 'fcm_no_badge',
-                        click_action: 'com.scb.planet_plus.ACTION_FCM_ROUTE',
-                    }
-                },
+                data: customData,
+                android: customAndroid,
                 apns: {
                     headers: { 'apns-priority': '10' },
                     payload: { aps: { 'content-available': 1 } }
@@ -112,14 +121,6 @@ app.get('/', async (req, res) => {
         return res.status(500).json({ error: "Internal server error" })
     }
 })
-
-// app.get('/subscribe', (req, res) => {
-//     res.send('Subscribe endpoint is under construction.')
-// })
-
-// app.get('/test/subscribe', (req, res) => {
-//     res.send('Test Subscribe endpoint is under construction.')
-// })
 
 app.listen(port, () => {
     console.log(`🚀 Server running: http://localhost:${port}`)
