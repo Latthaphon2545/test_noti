@@ -34,12 +34,18 @@ app.get('/', async (req, res) => {
             }
         }
 
+        let isNotification = false
+
         if (req.header('fcm-data')) {
             customData = JSON.parse(req.header('fcm-data')!)
         }
 
         if (req.header('fcm-android')) {
             customAndroid = JSON.parse(req.header('fcm-android')!)
+        }
+
+        if (req.header('is-notification')) {
+            isNotification = req.header('is-notification') === 'true'
         }
 
         // 🔥 Fix private key ให้เป็น multiline
@@ -78,10 +84,12 @@ app.get('/', async (req, res) => {
         const body = {
             message: {
                 token: fcmToken,
-                notification: {
-                    title: 'ไอเปรตเจด',
-                    body: 'ไอเปรตนี่เติมเงินมา 120 บาท "น้อยจัด" แล้วเมื่อเวลา 12:00 น.'
-                },
+                ...(isNotification && {
+                    notification: {
+                        title: 'SCB Planet Plus',
+                        body: `รายการเติมเงินเข้าวอลเล็ต จำนวน 212.12 บาท สำเร็จแล้ว เมื่อ ${dateString} เวลา ${timeString} น. ดูรายละเอียดที่เมนู 'ประวัติรายการ'`
+                    },
+                }),
                 data: customData,
                 android: customAndroid,
                 apns: {
